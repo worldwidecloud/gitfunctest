@@ -1,0 +1,148 @@
+{
+  "name": "Grok 3 Intelligence Testing Suite (Alternative)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Start Grok 3 Testing",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "api_key",
+              "name": "openrouter_api_key",
+              "value": "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",
+              "type": "string"
+            },
+            {
+              "id": "model",
+              "name": "model",
+              "value": "x-ai/grok-3",
+              "type": "string"
+            },
+            {
+              "id": "base_url",
+              "name": "base_url",
+              "value": "https://openrouter.ai/api/v1/chat/completions",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "config-node",
+      "name": "Test Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://n8n-grok-test.local"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"x-ai/grok-3\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are being tested for advanced reasoning capabilities. Provide detailed, logical responses.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"GROK 3 INTELLIGENCE TEST:\\n\\n1. LOGICAL REASONING: If all Bloops are Razzles and all Razzles are Lazzles, and some Lazzles are blue, can we conclude that some Bloops are blue? Explain your reasoning.\\n\\n2. CREATIVE PROBLEM SOLVING: A man lives on the 20th floor. Every morning he takes the elevator down. When he comes home, he takes the elevator to the 10th floor and walks the rest... except on rainy days, when he takes the elevator all the way to the 20th floor. Why?\\n\\n3. STRUCTURED OUTPUT: Respond with valid JSON containing your analysis of a tech startup with 40% turnover. Use this schema: {\\\"analysis\\\": {\\\"risk_level\\\": \\\"high\\\", \\\"recommendations\\\": [\\\"string\\\"]}}\\n\\n4. CONTEXT REASONING: Given these facts - Revenue $45M (+12%), Expenses $38M (+18%), 34% employees plan to leave, market growing 18% annually - what are the top 3 strategic priorities?\\n\\n5. METACOGNITIVE ASSESSMENT: Rate your confidence (1-10) in each of your above responses and explain why.\"\n    }\n  ],\n  \"temperature\": 0.3,\n  \"max_tokens\": 2000\n}"
+      },
+      "id": "grok-test",
+      "name": "Grok 3 Comprehensive Test",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Comprehensive Grok 3 Scoring System\nconst response = items[0].json;\nlet totalScore = 0;\nlet feedback = [];\nlet detailedAnalysis = {};\n\nif (response.choices && response.choices[0]) {\n  const content = response.choices[0].message.content;\n  \n  // 1. Logical Reasoning (25 points)\n  let logicalScore = 0;\n  if (content.toLowerCase().includes('cannot conclude') || content.toLowerCase().includes('insufficient')) {\n    logicalScore = 25;\n    feedback.push('✓ Correctly identified logical fallacy in syllogism');\n  } else {\n    feedback.push('✗ Failed to identify logical fallacy - concluded incorrectly');\n  }\n  \n  // 2. Creative Problem Solving (25 points)\n  let creativityScore = 0;\n  if (content.toLowerCase().includes('height') || content.toLowerCase().includes('short') || content.toLowerCase().includes('reach') || content.toLowerCase().includes('umbrella')) {\n    creativityScore = 25;\n    feedback.push('✓ Correctly solved elevator puzzle with creative insight');\n  } else {\n    feedback.push('✗ Did not find the height/reach solution to elevator problem');\n  }\n  \n  // 3. Structured Output (25 points)\n  let structureScore = 0;\n  const jsonMatch = content.match(/{[^}]*\"analysis\"[^}]*}/s);\n  if (jsonMatch) {\n    try {\n      const parsed = JSON.parse(jsonMatch[0]);\n      if (parsed.analysis && parsed.analysis.risk_level && parsed.analysis.recommendations) {\n        structureScore = 25;\n        feedback.push('✓ Provided valid JSON with correct schema');\n      } else {\n        structureScore = 15;\n        feedback.push('⚠ JSON valid but missing required fields');\n      }\n    } catch (e) {\n      structureScore = 5;\n      feedback.push('⚠ Attempted JSON but invalid format');\n    }\n  } else {\n    feedback.push('✗ Did not provide JSON response as requested');\n  }\n  \n  // 4. Context Reasoning (15 points)\n  let contextScore = 0;\n  const contextKeywords = ['retention', 'cost', 'growth', 'efficiency', 'talent', 'revenue', 'margin'];\n  const foundKeywords = contextKeywords.filter(keyword => content.toLowerCase().includes(keyword)).length;\n  contextScore = Math.min(15, foundKeywords * 3);\n  if (contextScore >= 12) {\n    feedback.push('✓ Demonstrated strong contextual reasoning');\n  } else if (contextScore >= 6) {\n    feedback.push('⚠ Some contextual understanding shown');\n  } else {\n    feedback.push('✗ Limited contextual reasoning demonstrated');\n  }\n  \n  // 5. Metacognitive Assessment (10 points)\n  let metaScore = 0;\n  if (content.toLowerCase().includes('confidence') && (content.includes('1-10') || /\\b[1-9]\\b/.test(content))) {\n    metaScore = 10;\n    feedback.push('✓ Provided metacognitive self-assessment');\n  } else {\n    feedback.push('✗ Did not provide confidence ratings as requested');\n  }\n  \n  totalScore = logicalScore + creativityScore + structureScore + contextScore + metaScore;\n  \n  detailedAnalysis = {\n    logical_reasoning: { score: logicalScore, max: 25, percentage: (logicalScore/25)*100 },\n    creative_problem_solving: { score: creativityScore, max: 25, percentage: (creativityScore/25)*100 },\n    structured_output: { score: structureScore, max: 25, percentage: (structureScore/25)*100 },\n    context_reasoning: { score: contextScore, max: 15, percentage: (contextScore/15)*100 },\n    metacognitive_assessment: { score: metaScore, max: 10, percentage: (metaScore/10)*100 }\n  };\n}\n\n// Generate overall grade\nfunction getGrade(percentage) {\n  if (percentage >= 90) return 'A+';\n  if (percentage >= 80) return 'A';\n  if (percentage >= 70) return 'B+';\n  if (percentage >= 60) return 'B';\n  if (percentage >= 50) return 'C';\n  return 'D';\n}\n\nconst overallPercentage = (totalScore / 100) * 100;\n\nconst report = {\n  test_summary: {\n    model: 'xAI Grok 3',\n    test_date: new Date().toISOString(),\n    overall_score: `${totalScore}/100`,\n    overall_percentage: Math.round(overallPercentage * 100) / 100,\n    overall_grade: getGrade(overallPercentage),\n    token_usage: response.usage || 'Not available'\n  },\n  detailed_scores: detailedAnalysis,\n  key_feedback: feedback,\n  performance_insights: {\n    strengths: Object.entries(detailedAnalysis)\n      .filter(([_, data]) => data.percentage >= 80)\n      .map(([category, _]) => category.replace('_', ' ')),\n    areas_for_improvement: Object.entries(detailedAnalysis)\n      .filter(([_, data]) => data.percentage < 60)\n      .map(([category, _]) => category.replace('_', ' ')),\n    consistency_rating: Math.min(...Object.values(detailedAnalysis).map(d => d.percentage)) >= 60 ? 'High' : 'Variable'\n  },\n  recommendations: overallPercentage >= 80 ? \n    ['Grok 3 demonstrates strong performance across most reasoning tasks', 'Suitable for complex analytical work'] :\n    ['Performance varies by task type', 'Consider task-specific model selection'],\n  raw_response: content.substring(0, 1000) + '...',\n  test_metadata: {\n    response_length: content.length,\n    contains_reasoning: content.toLowerCase().includes('because') || content.toLowerCase().includes('therefore'),\n    contains_uncertainty: content.toLowerCase().includes('might') || content.toLowerCase().includes('possibly'),\n    technical_depth: content.split(' ').length > 500 ? 'High' : 'Medium'\n  }\n};\n\nreturn [{ json: report }];"
+      },
+      "id": "comprehensive-scorer",
+      "name": "Comprehensive Analysis & Scoring",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [800, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json, null, 2) }}"
+      },
+      "id": "export-report",
+      "name": "Export Final Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1000, 300]
+    }
+  ],
+  "connections": {
+    "Start Grok 3 Testing": {
+      "main": [
+        [
+          {
+            "node": "Test Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Configuration": {
+      "main": [
+        [
+          {
+            "node": "Grok 3 Comprehensive Test",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grok 3 Comprehensive Test": {
+      "main": [
+        [
+          {
+            "node": "Comprehensive Analysis & Scoring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comprehensive Analysis & Scoring": {
+      "main": [
+        [
+          {
+            "node": "Export Final Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

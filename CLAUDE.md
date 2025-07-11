@@ -57,6 +57,18 @@ Essential extensions installed:
 3. Start coding with full Claude Code integration
 4. Use Command Palette (Cmd+Shift+P) to access Claude Dev features
 
+## n8n Integration
+
+**API Configuration**:
+- n8n Instance: `http://localhost:5555`
+- API Key: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MjQ0MTEyZC01MzQwLTRhNmMtYWYyNS1jZmVhYzgzOTVkYzIiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzUxOTU3NTE0LCJleHAiOjE3NTk3MjMyMDB9.rlS-xdhERbxEtncdw1w7w2G6W1iZ7joAWcRk3XEuAA8`
+- Docker Container: `n8ncontainer`
+
+**Available Tools**:
+- 526 total nodes (435 core + 91 LangChain)
+- 263 AI-capable tools
+- Full workflow management via MCP
+
 ## Notes
 
 - VS Code settings are configured in `.vscode/settings.json`

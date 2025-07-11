@@ -1,0 +1,496 @@
+{
+  "name": "Grok 4 Intelligence Testing Suite",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Start Grok 4 Testing",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "api_key",
+              "name": "openrouter_api_key",
+              "value": "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",
+              "type": "string"
+            },
+            {
+              "id": "model",
+              "name": "model",
+              "value": "xai/grok-4",
+              "type": "string"
+            },
+            {
+              "id": "base_url",
+              "name": "base_url",
+              "value": "https://openrouter.ai/api/v1/chat/completions",
+              "type": "string"
+            },
+            {
+              "id": "test_timestamp",
+              "name": "test_timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "config-node",
+      "name": "Test Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Test Configuration').item.json.base_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $('Test Configuration').item.json.openrouter_api_key }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://n8n-grok-test.local"
+            },
+            {
+              "name": "X-Title",
+              "value": "Grok 4 Intelligence Test"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"{{ $('Test Configuration').item.json.model }}\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are being tested for advanced logical reasoning. Provide clear, step-by-step reasoning for each problem. Be precise and show your work.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"LOGICAL REASONING TEST:\\n\\n1. If all Bloops are Razzles and all Razzles are Lazzles, and some Lazzles are blue, can we conclude that some Bloops are blue? Explain your reasoning.\\n\\n2. A farmer has 17 sheep, and all but 9 die. How many sheep does the farmer have left? Show your logical steps.\\n\\n3. You have a 3-gallon jug and a 5-gallon jug. How can you measure exactly 4 gallons? Provide the complete sequence.\\n\\n4. If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets? Explain the reasoning behind your answer.\"\n    }\n  ],\n  \"temperature\": 0.1,\n  \"max_tokens\": 1000\n}"
+      },
+      "id": "logical-reasoning-test",
+      "name": "A. Logical Reasoning Test",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Test Configuration').item.json.base_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $('Test Configuration').item.json.openrouter_api_key }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://n8n-grok-test.local"
+            },
+            {
+              "name": "X-Title",
+              "value": "Grok 4 Intelligence Test"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"{{ $('Test Configuration').item.json.model }}\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are being tested for creative problem-solving abilities. Think outside the box and provide innovative solutions with clear explanations.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"CREATIVE PROBLEM SOLVING TEST:\\n\\n1. A man lives on the 20th floor of an apartment building. Every morning he takes the elevator down to the ground floor. When he comes home, he takes the elevator to the 10th floor and walks the rest of the way... except on rainy days, when he takes the elevator all the way to the 20th floor. Why?\\n\\n2. You have a birthday cake and need to divide it equally among 8 people, but you can only make 3 straight cuts. How do you do it?\\n\\n3. Design a new sport that combines elements from at least 3 existing sports, explain the rules, scoring system, and what makes it engaging.\\n\\n4. If you were shrunk to the size of a penny and put in a blender that would start in 60 seconds, how would you escape?\"\n    }\n  ],\n  \"temperature\": 0.7,\n  \"max_tokens\": 1200\n}"
+      },
+      "id": "creative-problem-test",
+      "name": "B. Creative Problem Solving",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 280]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Test Configuration').item.json.base_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $('Test Configuration').item.json.openrouter_api_key }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://n8n-grok-test.local"
+            },
+            {
+              "name": "X-Title",
+              "value": "Grok 4 Intelligence Test"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"{{ $('Test Configuration').item.json.model }}\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You must respond with valid JSON that exactly matches the requested schema. Do not include any text outside the JSON structure.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"STRUCTURED OUTPUT TEST:\\n\\nAnalyze this scenario and respond with a JSON object matching this exact schema:\\n\\n{\\n  \\\"analysis\\\": {\\n    \\\"scenario\\\": \\\"string\\\",\\n    \\\"key_factors\\\": [\\\"string\\\"],\\n    \\\"risk_level\\\": \\\"low|medium|high\\\",\\n    \\\"confidence_score\\\": number between 0-100\\n  },\\n  \\\"recommendations\\\": [\\n    {\\n      \\\"action\\\": \\\"string\\\",\\n      \\\"priority\\\": \\\"low|medium|high\\\",\\n      \\\"timeline\\\": \\\"immediate|short-term|long-term\\\",\\n      \\\"resources_needed\\\": [\\\"string\\\"]\\n    }\\n  ],\\n  \\\"metrics\\\": {\\n    \\\"estimated_cost\\\": number,\\n    \\\"implementation_time_days\\\": number,\\n    \\\"success_probability\\\": number between 0-1\\n  }\\n}\\n\\nSCENARIO: A tech startup with 50 employees is experiencing 40% annual turnover, declining productivity, and missed project deadlines. They have $2M in funding remaining and 18 months of runway. Recent employee surveys show concerns about work-life balance, unclear career progression, and insufficient recognition.\"\n    }\n  ],\n  \"temperature\": 0.3,\n  \"max_tokens\": 800\n}"
+      },
+      "id": "structured-output-test",
+      "name": "C. Structured Output Test",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 380]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Test Configuration').item.json.base_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $('Test Configuration').item.json.openrouter_api_key }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://n8n-grok-test.local"
+            },
+            {
+              "name": "X-Title",
+              "value": "Grok 4 Intelligence Test"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"{{ $('Test Configuration').item.json.model }}\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are an AI assistant that can call tools to solve problems. For this test, describe which tools you would call, in what order, and with what parameters, as if you had access to these functions: get_weather(location), send_email(to, subject, body), search_web(query), calculate(expression), translate(text, target_language), get_stock_price(symbol).\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"TOOL CALLING SIMULATION TEST:\\n\\n1. SCENARIO: A user asks: 'I'm traveling to Tokyo next week for a business meeting. Can you help me prepare? I need to know the weather, send a confirmation email to my colleague Yuki at yuki@company.jp, find information about business etiquette in Japan, and get the current USD to JPY exchange rate.'\\n\\nDescribe your tool calling strategy:\\n- Which tools would you call?\\n- In what sequence?\\n- What parameters would you use?\\n- How would you handle potential errors?\\n- How would you synthesize the results?\\n\\n2. PARALLEL PROCESSING: If you could call multiple tools simultaneously, which ones would you call in parallel vs sequentially, and why?\\n\\n3. ERROR HANDLING: If the weather API returns an error, how would you modify your approach?\"\n    }\n  ],\n  \"temperature\": 0.4,\n  \"max_tokens\": 1000\n}"
+      },
+      "id": "tool-calling-test",
+      "name": "D. Tool Calling Simulation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 480]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Test Configuration').item.json.base_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $('Test Configuration').item.json.openrouter_api_key }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://n8n-grok-test.local"
+            },
+            {
+              "name": "X-Title",
+              "value": "Grok 4 Intelligence Test"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"{{ $('Test Configuration').item.json.model }}\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are analyzing multiple complex documents. Pay attention to details across all documents and identify connections, contradictions, and insights that span multiple sources.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"CONTEXT WINDOW STRESS TEST:\\n\\nAnalyze these interconnected documents and provide comprehensive insights:\\n\\nDOCUMENT 1 - FINANCIAL REPORT Q3 2024:\\nRevenue: $45.2M (+12% YoY), Operating Expenses: $38.1M (+18% YoY), Net Income: $7.1M (-8% YoY), Cash Flow: $12.3M (+5% YoY), R&D Investment: $8.2M (+25% YoY), Marketing Spend: $6.7M (+30% YoY), Employee Count: 847 (+15% YoY), Customer Acquisition Cost: $125 (+22% YoY), Customer Lifetime Value: $2,840 (-3% YoY), Churn Rate: 8.2% (+1.1% YoY), Market Share: 12.3% (+0.8% YoY)\\n\\nDOCUMENT 2 - EMPLOYEE SURVEY RESULTS:\\n92% satisfaction with remote work flexibility, 67% feel adequately compensated, 45% see clear career progression path, 78% would recommend company to friends, 34% plan to leave within 12 months, 89% satisfied with work-life balance, 56% feel their contributions are recognized, 72% confident in company direction, 23% experienced burnout in last quarter, 81% enjoy working with their immediate team\\n\\nDOCUMENT 3 - MARKET ANALYSIS:\\nTotal Addressable Market: $2.1B, Serviceable Available Market: $890M, Competitive Landscape: 23 direct competitors, Market Growth Rate: 18% annually, Emerging Technologies: AI integration trending +340%, Regulatory Changes: New privacy laws affecting 67% of customer base, Customer Preferences: 78% prioritize sustainability, Economic Indicators: Rising interest rates affecting B2B purchasing decisions by avg 23% delay, Supply Chain: 15% cost increase due to geopolitical tensions\\n\\nDOCUMENT 4 - PRODUCT ROADMAP:\\nQ4 2024: AI-powered analytics launch, Q1 2025: Mobile app redesign, Q2 2025: Enterprise security features, Q3 2025: International expansion (EU), Q4 2025: Blockchain integration pilot, Technical Debt: Estimated 340 hours needed for legacy system updates, User Feedback: 4.2/5 average rating, 23% request better mobile experience, API Usage: 12M calls/month (+45% QoQ), System Uptime: 99.7%\\n\\nDOCUMENT 5 - COMPETITIVE INTELLIGENCE:\\nCompetitor A: Recent $50M funding round, launching similar AI features Q1 2025, 15% market share; Competitor B: Acquired by tech giant, expanding rapidly in enterprise segment, 18% market share; Competitor C: Patent litigation ongoing, may affect product roadmap, 8% market share; Industry Trends: Consolidation expected, average acquisition multiple 8.5x revenue, VC funding down 23% YoY but AI startups still attracting premium valuations\\n\\nPROVIDE ANALYSIS COVERING:\\n1. Overall company health assessment\\n2. Key strategic risks and opportunities\\n3. Interconnected insights across all documents\\n4. Prioritized recommendations with rationale\\n5. Potential future scenarios (best/worst/most likely case)\"\n    }\n  ],\n  \"temperature\": 0.2,\n  \"max_tokens\": 2000\n}"
+      },
+      "id": "context-window-test",
+      "name": "E. Context Window Stress Test",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 580]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Score Logical Reasoning Test\nconst response = items[0].json;\nlet score = 0;\nlet feedback = [];\n\nif (response.choices && response.choices[0]) {\n  const content = response.choices[0].message.content.toLowerCase();\n  \n  // Check for correct logical reasoning\n  if (content.includes('cannot conclude') || content.includes('insufficient information')) {\n    score += 2.5; // Correct: Cannot conclude some Bloops are blue\n    feedback.push('✓ Correctly identified logical fallacy in syllogism');\n  } else {\n    feedback.push('✗ Failed to identify logical fallacy in syllogism');\n  }\n  \n  if (content.includes('9') && content.includes('sheep')) {\n    score += 2.5; // Correct: 9 sheep left\n    feedback.push('✓ Correctly solved sheep problem');\n  } else {\n    feedback.push('✗ Incorrect answer to sheep problem');\n  }\n  \n  if (content.includes('step') && (content.includes('pour') || content.includes('fill'))) {\n    score += 2.5; // Shows step-by-step process for jug problem\n    feedback.push('✓ Provided systematic approach to jug problem');\n  } else {\n    feedback.push('✗ Did not provide clear steps for jug problem');\n  }\n  \n  if (content.includes('5 minutes') || content.includes('same time')) {\n    score += 2.5; // Correct: 5 minutes (parallel processing)\n    feedback.push('✓ Correctly understood parallel processing concept');\n  } else {\n    feedback.push('✗ Failed to grasp parallel processing in widget problem');\n  }\n}\n\nreturn [{\n  json: {\n    test_type: 'Logical Reasoning',\n    score: score,\n    max_score: 10,\n    percentage: (score / 10) * 100,\n    feedback: feedback,\n    response_time_ms: response.usage?.total_tokens ? response.usage.total_tokens * 0.5 : 'N/A',\n    tokens_used: response.usage?.total_tokens || 'N/A',\n    raw_response: response.choices?.[0]?.message?.content || 'No response'\n  }\n}];"
+        },
+        "id": "score-logical",
+        "name": "Score A: Logical Reasoning",
+        "type": "n8n-nodes-base.function",
+        "typeVersion": 1,
+        "position": [800, 180]
+      },
+      {
+        "parameters": {
+          "functionCode": "// Score Creative Problem Solving Test\nconst response = items[0].json;\nlet score = 0;\nlet feedback = [];\n\nif (response.choices && response.choices[0]) {\n  const content = response.choices[0].message.content.toLowerCase();\n  \n  // Elevator problem (looking for height/button reach explanation)\n  if (content.includes('height') || content.includes('short') || content.includes('reach') || content.includes('umbrella')) {\n    score += 2.5;\n    feedback.push('✓ Correctly solved elevator puzzle');\n  } else {\n    feedback.push('✗ Did not find the correct elevator solution');\n  }\n  \n  // Cake cutting (looking for 3D approach)\n  if (content.includes('layer') || content.includes('stack') || content.includes('horizontal') || content.includes('3d')) {\n    score += 2.5;\n    feedback.push('✓ Demonstrated 3D thinking for cake problem');\n  } else {\n    feedback.push('✗ Did not use 3D approach for cake cutting');\n  }\n  \n  // New sport design (creativity assessment)\n  if (content.includes('rule') && content.includes('score') && content.length > 500) {\n    score += 2.5;\n    feedback.push('✓ Created detailed and creative sport concept');\n  } else {\n    feedback.push('✗ Sport design lacked detail or creativity');\n  }\n  \n  // Blender escape (creative problem solving)\n  if (content.includes('climb') || content.includes('weight') || content.includes('physics') || content.includes('leverage')) {\n    score += 2.5;\n    feedback.push('✓ Showed creative physics-based thinking');\n  } else {\n    feedback.push('✗ Solution lacked creative physical reasoning');\n  }\n}\n\nreturn [{\n  json: {\n    test_type: 'Creative Problem Solving',\n    score: score,\n    max_score: 10,\n    percentage: (score / 10) * 100,\n    feedback: feedback,\n    response_time_ms: response.usage?.total_tokens ? response.usage.total_tokens * 0.5 : 'N/A',\n    tokens_used: response.usage?.total_tokens || 'N/A',\n    raw_response: response.choices?.[0]?.message?.content || 'No response'\n  }\n}];"
+        },
+        "id": "score-creative",
+        "name": "Score B: Creative Problem Solving",
+        "type": "n8n-nodes-base.function",
+        "typeVersion": 1,
+        "position": [800, 280]
+      },
+      {
+        "parameters": {
+          "functionCode": "// Score Structured Output Test\nconst response = items[0].json;\nlet score = 0;\nlet feedback = [];\n\nif (response.choices && response.choices[0]) {\n  const content = response.choices[0].message.content;\n  \n  try {\n    const parsed = JSON.parse(content);\n    score += 3; // Valid JSON\n    feedback.push('✓ Response is valid JSON');\n    \n    // Check required structure\n    if (parsed.analysis && typeof parsed.analysis === 'object') {\n      score += 1;\n      feedback.push('✓ Contains analysis object');\n      \n      if (parsed.analysis.scenario && parsed.analysis.key_factors && parsed.analysis.risk_level && parsed.analysis.confidence_score) {\n        score += 2;\n        feedback.push('✓ Analysis contains all required fields');\n      }\n    }\n    \n    if (parsed.recommendations && Array.isArray(parsed.recommendations)) {\n      score += 2;\n      feedback.push('✓ Contains recommendations array');\n      \n      if (parsed.recommendations.length > 0 && parsed.recommendations[0].action) {\n        score += 1;\n        feedback.push('✓ Recommendations have proper structure');\n      }\n    }\n    \n    if (parsed.metrics && typeof parsed.metrics === 'object') {\n      score += 1;\n      feedback.push('✓ Contains metrics object');\n    }\n    \n  } catch (error) {\n    feedback.push('✗ Response is not valid JSON');\n  }\n}\n\nreturn [{\n  json: {\n    test_type: 'Structured Output',\n    score: score,\n    max_score: 10,\n    percentage: (score / 10) * 100,\n    feedback: feedback,\n    response_time_ms: response.usage?.total_tokens ? response.usage.total_tokens * 0.5 : 'N/A',\n    tokens_used: response.usage?.total_tokens || 'N/A',\n    raw_response: response.choices?.[0]?.message?.content || 'No response'\n  }\n}];"
+        },
+        "id": "score-structured",
+        "name": "Score C: Structured Output",
+        "type": "n8n-nodes-base.function",
+        "typeVersion": 1,
+        "position": [800, 380]
+      },
+      {
+        "parameters": {
+          "functionCode": "// Score Tool Calling Simulation Test\nconst response = items[0].json;\nlet score = 0;\nlet feedback = [];\n\nif (response.choices && response.choices[0]) {\n  const content = response.choices[0].message.content.toLowerCase();\n  \n  // Check for tool identification\n  const mentionedTools = ['get_weather', 'send_email', 'search_web', 'calculate', 'translate', 'get_stock_price'];\n  const toolCount = mentionedTools.filter(tool => content.includes(tool)).length;\n  \n  if (toolCount >= 4) {\n    score += 2;\n    feedback.push('✓ Identified multiple relevant tools');\n  } else {\n    feedback.push('✗ Did not identify enough relevant tools');\n  }\n  \n  // Check for sequencing understanding\n  if (content.includes('sequence') || content.includes('order') || content.includes('parallel')) {\n    score += 2;\n    feedback.push('✓ Demonstrated understanding of execution order');\n  }\n  \n  // Check for parameter specification\n  if (content.includes('parameter') || content.includes('tokyo') || content.includes('yuki@')) {\n    score += 2;\n    feedback.push('✓ Specified appropriate parameters');\n  }\n  \n  // Check for error handling\n  if (content.includes('error') || content.includes('fallback') || content.includes('alternative')) {\n    score += 2;\n    feedback.push('✓ Considered error handling strategies');\n  }\n  \n  // Check for synthesis understanding\n  if (content.includes('synthesize') || content.includes('combine') || content.includes('summary')) {\n    score += 2;\n    feedback.push('✓ Understood result synthesis concept');\n  }\n}\n\nreturn [{\n  json: {\n    test_type: 'Tool Calling Simulation',\n    score: score,\n    max_score: 10,\n    percentage: (score / 10) * 100,\n    feedback: feedback,\n    response_time_ms: response.usage?.total_tokens ? response.usage.total_tokens * 0.5 : 'N/A',\n    tokens_used: response.usage?.total_tokens || 'N/A',\n    raw_response: response.choices?.[0]?.message?.content || 'No response'\n  }\n}];"
+        },
+        "id": "score-tools",
+        "name": "Score D: Tool Calling",
+        "type": "n8n-nodes-base.function",
+        "typeVersion": 1,
+        "position": [800, 480]
+      },
+      {
+        "parameters": {
+          "functionCode": "// Score Context Window Stress Test\nconst response = items[0].json;\nlet score = 0;\nlet feedback = [];\n\nif (response.choices && response.choices[0]) {\n  const content = response.choices[0].message.content.toLowerCase();\n  \n  // Check for comprehensive analysis\n  if (content.length > 1000) {\n    score += 2;\n    feedback.push('✓ Provided comprehensive analysis');\n  }\n  \n  // Check for cross-document insights\n  const documents = ['financial', 'employee', 'market', 'product', 'competitive'];\n  const mentionedDocs = documents.filter(doc => content.includes(doc)).length;\n  \n  if (mentionedDocs >= 4) {\n    score += 2;\n    feedback.push('✓ Referenced multiple documents');\n  }\n  \n  // Check for specific data points\n  const dataPoints = ['45.2m', '67%', '12.3%', '340', '23%', '15%'];\n  const mentionedData = dataPoints.filter(point => content.includes(point.replace('%', ''))).length;\n  \n  if (mentionedData >= 3) {\n    score += 2;\n    feedback.push('✓ Referenced specific data points');\n  }\n  \n  // Check for strategic insights\n  if (content.includes('risk') && content.includes('opportunity') && content.includes('recommendation')) {\n    score += 2;\n    feedback.push('✓ Provided strategic insights');\n  }\n  \n  // Check for scenario planning\n  if (content.includes('scenario') || (content.includes('best') && content.includes('worst'))) {\n    score += 2;\n    feedback.push('✓ Included scenario planning');\n  }\n}\n\nreturn [{\n  json: {\n    test_type: 'Context Window Stress',\n    score: score,\n    max_score: 10,\n    percentage: (score / 10) * 100,\n    feedback: feedback,\n    response_time_ms: response.usage?.total_tokens ? response.usage.total_tokens * 0.5 : 'N/A',\n    tokens_used: response.usage?.total_tokens || 'N/A',\n    raw_response: response.choices?.[0]?.message?.content || 'No response'\n  }\n}];"
+        },
+        "id": "score-context",
+        "name": "Score E: Context Window",
+        "type": "n8n-nodes-base.function",
+        "typeVersion": 1,
+        "position": [800, 580]
+      },
+      {
+        "parameters": {
+          "mode": "mergeByIndex"
+        },
+        "id": "merge-results",
+        "name": "Merge All Results",
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3,
+        "position": [1000, 380]
+      },
+      {
+        "parameters": {
+          "functionCode": "// Generate Comprehensive Grok 4 Test Report\nconst results = items.map(item => item.json);\n\n// Calculate overall scores\nconst totalScore = results.reduce((sum, result) => sum + result.score, 0);\nconst maxTotalScore = results.length * 10;\nconst overallPercentage = (totalScore / maxTotalScore) * 100;\n\n// Calculate token usage\nconst totalTokens = results.reduce((sum, result) => {\n  return sum + (typeof result.tokens_used === 'number' ? result.tokens_used : 0);\n}, 0);\n\n// Generate performance grades\nfunction getGrade(percentage) {\n  if (percentage >= 90) return 'A+';\n  if (percentage >= 80) return 'A';\n  if (percentage >= 70) return 'B+';\n  if (percentage >= 60) return 'B';\n  if (percentage >= 50) return 'C';\n  return 'D';\n}\n\n// Identify strengths and weaknesses\nconst sortedResults = results.sort((a, b) => b.percentage - a.percentage);\nconst strengths = sortedResults.slice(0, 2).map(r => r.test_type);\nconst weaknesses = sortedResults.slice(-2).map(r => r.test_type);\n\n// Generate recommendations\nconst recommendations = [];\nif (overallPercentage >= 85) {\n  recommendations.push('Grok 4 demonstrates excellent performance across all test categories');\n  recommendations.push('Suitable for complex reasoning, creative tasks, and structured outputs');\n} else if (overallPercentage >= 70) {\n  recommendations.push('Grok 4 shows strong performance with some areas for improvement');\n  recommendations.push('Best suited for tasks that align with identified strengths');\n} else {\n  recommendations.push('Grok 4 performance is mixed - consider alternative models for critical tasks');\n  recommendations.push('Focus usage on identified strength areas');\n}\n\n// Create comprehensive report\nconst report = {\n  test_summary: {\n    model: 'xAI Grok 4',\n    test_date: new Date().toISOString(),\n    overall_score: `${totalScore}/${maxTotalScore}`,\n    overall_percentage: Math.round(overallPercentage * 100) / 100,\n    overall_grade: getGrade(overallPercentage),\n    total_tokens_used: totalTokens\n  },\n  detailed_results: results.map(result => ({\n    test_type: result.test_type,\n    score: `${result.score}/10`,\n    percentage: result.percentage,\n    grade: getGrade(result.percentage),\n    key_feedback: result.feedback,\n    tokens_used: result.tokens_used\n  })),\n  performance_analysis: {\n    strengths: strengths,\n    weaknesses: weaknesses,\n    consistency_score: Math.round((1 - (Math.max(...results.map(r => r.percentage)) - Math.min(...results.map(r => r.percentage))) / 100) * 100),\n    average_response_quality: Math.round(overallPercentage)\n  },\n  recommendations: recommendations,\n  comparative_insights: {\n    logical_reasoning: results.find(r => r.test_type === 'Logical Reasoning')?.percentage || 0,\n    creativity: results.find(r => r.test_type === 'Creative Problem Solving')?.percentage || 0,\n    structured_output: results.find(r => r.test_type === 'Structured Output')?.percentage || 0,\n    tool_understanding: results.find(r => r.test_type === 'Tool Calling Simulation')?.percentage || 0,\n    context_handling: results.find(r => r.test_type === 'Context Window Stress')?.percentage || 0\n  },\n  raw_responses: results.map(result => ({\n    test: result.test_type,\n    response: result.raw_response.substring(0, 500) + '...'\n  }))\n};\n\nreturn [{ json: report }];"
+        },
+        "id": "generate-report",
+        "name": "Generate Final Report",
+        "type": "n8n-nodes-base.function",
+        "typeVersion": 1,
+        "position": [1200, 380]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://httpbin.org/post",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ JSON.stringify($json, null, 2) }}",
+          "options": {}
+        },
+        "id": "export-results",
+        "name": "Export Test Results",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [1400, 380]
+      }
+    ],
+    "connections": {
+      "Start Grok 4 Testing": {
+        "main": [
+          [
+            {
+              "node": "Test Configuration",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Test Configuration": {
+        "main": [
+          [
+            {
+              "node": "A. Logical Reasoning Test",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "B. Creative Problem Solving",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "C. Structured Output Test",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "D. Tool Calling Simulation",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "E. Context Window Stress Test",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "A. Logical Reasoning Test": {
+        "main": [
+          [
+            {
+              "node": "Score A: Logical Reasoning",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "B. Creative Problem Solving": {
+        "main": [
+          [
+            {
+              "node": "Score B: Creative Problem Solving",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "C. Structured Output Test": {
+        "main": [
+          [
+            {
+              "node": "Score C: Structured Output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "D. Tool Calling Simulation": {
+        "main": [
+          [
+            {
+              "node": "Score D: Tool Calling",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "E. Context Window Stress Test": {
+        "main": [
+          [
+            {
+              "node": "Score E: Context Window",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Score A: Logical Reasoning": {
+        "main": [
+          [
+            {
+              "node": "Merge All Results",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Score B: Creative Problem Solving": {
+        "main": [
+          [
+            {
+              "node": "Merge All Results",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Score C: Structured Output": {
+        "main": [
+          [
+            {
+              "node": "Merge All Results",
+              "type": "main",
+              "index": 2
+            }
+          ]
+        ]
+      },
+      "Score D: Tool Calling": {
+        "main": [
+          [
+            {
+              "node": "Merge All Results",
+              "type": "main",
+              "index": 3
+            }
+          ]
+        ]
+      },
+      "Score E: Context Window": {
+        "main": [
+          [
+            {
+              "node": "Merge All Results",
+              "type": "main",
+              "index": 4
+            }
+          ]
+        ]
+      },
+      "Merge All Results": {
+        "main": [
+          [
+            {
+              "node": "Generate Final Report",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Final Report": {
+        "main": [
+          [
+            {
+              "node": "Export Test Results",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1"
+    },
+    "staticData": null,
+    "meta": null,
+    "pinData": {},
+    "versionId": null,
+    "triggerCount": 0,
+    "tags": []
+}
