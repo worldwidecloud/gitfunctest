@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "saoudrizwan.claude-dev",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "formulahendry.auto-rename-tag",
+    "ms-vscode.live-server",
+    "humao.rest-client"
+  ]
+}
